@@ -1,0 +1,26 @@
+{% extends 'base.html' %} {% block content %}
+<h1>Lead Detail</h1>
+<table class="table table-hover table-bordered">
+  <tbody>
+    <tr>
+      <th scope="row">First Name:</th>
+      <td>{{ lead.first_name }}</td>
+    </tr>
+    <tr>
+      <th scope="row">Last Name:</th>
+      <td>{{ lead.last_name }}</td>
+    </tr>
+    <tr>
+      <th scope="row">Lead ID:</th>
+      <td colspan="2">{{ lead.id }}</td>
+    </tr>
+    <tr>
+      <th scope="row">Age:</th>
+      <td colspan="2">{{ lead.age }}</td>
+    </tr>
+  </tbody>
+</table>
+
+<a href="/leads/" class="btn btn-secondary" role="button">Back</a>
+
+{% endblock content %}
