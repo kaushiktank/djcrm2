@@ -1,7 +1,9 @@
 {% extends 'base.html' %} 
 {% block content %} 
-    <h1>This is all of our Leads</h1>
-    {% for lead in leads %}
-          <a href="/leads/{{ lead.pk }}/" class="list-group-item list-group-item-action">Name: {{lead.first_name}} {{ lead.last_name }}, Age: {{lead.age}}</a>
-    {% endfor %} 
+    <a href={% url 'leads:lead-create' %} class="btn btn-success" role="button">Create a New Lead</a>
+    <hr />
+        <h1>This is all of our Leads</h1>
+        {% for lead in leads %}
+            <a href={% url 'leads:lead-detail' lead.pk %} class="list-group-item list-group-item-action">Name: {{lead.first_name}} {{ lead.last_name }}, Age: {{lead.age}}</a>
+        {% endfor %} 
 {% endblock content %}
