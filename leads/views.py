@@ -1,8 +1,16 @@
-from django.shortcuts import render, HttpResponse, redirect
+from django.shortcuts import render, HttpResponse, redirect, reverse
+from django.views import generic
 from .models import Lead
 from .forms import LeadFrom, LeadModelForm
 from .models import Agent
 
+
+# This is a class based view which defined by the view name + View. class based views has many generic views to use and in this case it is a ListView. 
+class LeadListView(generic.ListView):
+    template_name = "leads/lead_list.html"
+    queryset = Lead.objects.all()
+    # context_object_name is change the default variable of ListView, onject_list to something else
+    context_object_name = 'leads'
 
 def lead_list(request):
     leads = Lead.objects.all()
@@ -10,6 +18,11 @@ def lead_list(request):
         "leads": leads
     }
     return render(request, "leads/lead_list.html", context)
+
+class LeadDetailView(generic.DetailView):
+    template_name = "leads/lead_detail.html"
+    queryset= Lead.objects.all()
+    context_object_name = 'lead'
 
 
 def lead_detail(request, pk):
@@ -19,6 +32,16 @@ def lead_detail(request, pk):
         "lead": lead
     }
     return render(request, "leads/lead_detail.html", context)
+
+
+
+class LeadCreateView(generic.CreateView):
+    model = Lead
+    template_name = "leads/lead_create.html"
+    form_class = LeadModelForm
+
+    def get_success_url(self):
+        return reverse("leads:lead-list")
 
 
 # create leads with model form provided by django frameworks Model from has been defined into the forms.py file with the database model name + ModelForm as a class name.
@@ -35,6 +58,15 @@ def lead_create(request):
         "form": form
     }
     return render(request, "leads/lead_create.html", context)
+
+
+class LeadUpdateView(generic.UpdateView):
+    model = Lead
+    template_name = "leads/lead_update.html"
+    form_class = LeadModelForm
+
+    def get_success_url(self):
+        return reverse('leads:lead-list')
 
 
 # update the leads with the help of model forms very similear to the create with model form. to update the data pass the instance with the modelform. in this case it is a id.
@@ -54,12 +86,19 @@ def lead_update(request, pk):
     return render(request, "leads/lead_update.html", context)
 
 
+class LeadDeleteView(generic.DeleteView):
+    model = Lead
+    template_name = "leads/lead_delete.html"
+
+    def get_success_url(self):
+        return reverse('leads:lead-list')
+
 def leads_delete(request, pk):
     lead = Lead.objects.get(id=pk)
     lead.delete()
     return redirect('/leads')
 
-# update the data with the default dajngo form methoad  
+# update the data with the default dajngo form methoad
 # def lead_update(request, pk):
 #     form = LeadFrom()
 #     lead = Lead.objects.get(id=pk)
