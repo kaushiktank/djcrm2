@@ -1,14 +1,31 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="container-fluid">
     <a class="navbar-brand" href={% url 'home-page' %}>CRM Project</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Link</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#" >Disabled</a>
+        </li>
+      </ul>
+      <form class="d-flex">
+      {% if request.user.is_authenticated %}
+        <p class="text-white mb-2"> Welcome: {{ request.user.username }} </p>
+        <a href={% url 'logout' %} class='btn btn-outline-warning me-2'>Logout</a>
+      {% else %}
+        <a href={% url 'login' %} class='btn btn-outline-warning me-2'>Login</a>
+        <a href={% url 'registor' %} class='btn btn-warning me-2'>Registor</a>
+      {% endif %}
+
+      </form>
     </div>
-      <div class="collapse d-flex">
-        <button class="btn btn-outline-success me-2" type="submit">Registor</button>
-        <button class="btn btn-outline-success" type="submit">Login</button>
-      </div>
   </div>
 </nav>

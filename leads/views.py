@@ -1,9 +1,18 @@
-from django.shortcuts import render, HttpResponse, redirect, reverse
+from django.core.mail import send_mail
+from django.shortcuts import render, redirect, reverse
 from django.views import generic
+from django.contrib.auth.forms import UserCreationForm
+from django.http import HttpResponse
 from .models import Lead
 from .forms import LeadFrom, LeadModelForm
 from .models import Agent
 
+
+class SignupView(generic.CreateView):
+    template_name = 'registration/signup.html'
+    form_class = UserCreationForm
+    def get_success_url(self):
+        return reverse('login')
 
 # This is a class based view which defined by the view name + View. class based views has many generic views to use and in this case it is a ListView. 
 class LeadListView(generic.ListView):
@@ -34,7 +43,6 @@ def lead_detail(request, pk):
     return render(request, "leads/lead_detail.html", context)
 
 
-
 class LeadCreateView(generic.CreateView):
     model = Lead
     template_name = "leads/lead_create.html"
@@ -42,6 +50,15 @@ class LeadCreateView(generic.CreateView):
 
     def get_success_url(self):
         return reverse("leads:lead-list")
+
+    def form_valid(self, form):
+        send_mail(
+            subject="Lead Has Been Created",
+            message="Logon to the site to view your leads",
+            from_email="kauhisk@kauhsik.com",
+            recipient_list=['kauhsik2@kaisik.com']
+        )
+        return super(LeadCreateView, self).form_valid(form)
 
 
 # create leads with model form provided by django frameworks Model from has been defined into the forms.py file with the database model name + ModelForm as a class name.

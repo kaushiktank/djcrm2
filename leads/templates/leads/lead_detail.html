@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
-  <a href={% url 'leads:lead-list' %} class="btn btn-success" role="button">Back</a>
-  <a href={% url 'leads:lead-update' lead.pk %} class="btn btn-success" role="button">Edit</a>
+  <a href={% url 'leads:lead-list' %} class="btn btn-warning" role="button">Back</a>
+  <a href={% url 'leads:lead-update' lead.pk %} class="btn btn-warning" role="button">Edit</a>
   <a href={% url 'leads:lead-delete' lead.pk %} class="btn btn-danger" role="button">Delete</a>
   <hr />
   <h1>Lead Detail</h1>
