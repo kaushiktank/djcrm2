@@ -1,12 +1,9 @@
 {% extends 'base.html' %}
-
 {% block content %}
-
-<form method='POST'>
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type='submit'>Sign Up</button>
-
-</form>
-
+<div class="position-absolute top-50 start-50 translate-middle">
+  <form method="POST">
+    {% csrf_token %} {{ form.as_p }}
+    <button type="submit">Sign Up</button>
+  </form>
+</div>
 {% endblock content %}

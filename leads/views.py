@@ -1,25 +1,28 @@
 from django.core.mail import send_mail
 from django.shortcuts import render, redirect, reverse
 from django.views import generic
-from django.contrib.auth.forms import UserCreationForm
 from django.http import HttpResponse
 from .models import Lead
-from .forms import LeadFrom, LeadModelForm
+from .forms import LeadFrom, LeadModelForm, CustomUserCreationForm
 from .models import Agent
 
 
 class SignupView(generic.CreateView):
     template_name = 'registration/signup.html'
-    form_class = UserCreationForm
+    form_class = CustomUserCreationForm
+
     def get_success_url(self):
         return reverse('login')
 
-# This is a class based view which defined by the view name + View. class based views has many generic views to use and in this case it is a ListView. 
+# This is a class based view which defined by the view name + View. class based views has many generic views to use and in this case it is a ListView.
+
+
 class LeadListView(generic.ListView):
     template_name = "leads/lead_list.html"
     queryset = Lead.objects.all()
     # context_object_name is change the default variable of ListView, onject_list to something else
     context_object_name = 'leads'
+
 
 def lead_list(request):
     leads = Lead.objects.all()
@@ -28,9 +31,10 @@ def lead_list(request):
     }
     return render(request, "leads/lead_list.html", context)
 
+
 class LeadDetailView(generic.DetailView):
     template_name = "leads/lead_detail.html"
-    queryset= Lead.objects.all()
+    queryset = Lead.objects.all()
     context_object_name = 'lead'
 
 
@@ -109,6 +113,7 @@ class LeadDeleteView(generic.DeleteView):
 
     def get_success_url(self):
         return reverse('leads:lead-list')
+
 
 def leads_delete(request, pk):
     lead = Lead.objects.get(id=pk)
